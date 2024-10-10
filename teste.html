@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Receitas</title>
+    <!-- Incluindo a folha de estilos do Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Ajustes para o container do catálogo */
+        #pnlCatalogo {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+    </style>
+</head>
+<body class="bg-warning" onload="preencheCatalogo()">
+
+    <!-- Container principal fluido -->
+    <div class="container-fluid">
+        <h1 class="text-center my-4">Catálogo de Receitas</h1>
+
+        <!-- Div flexível para os painéis de receitas -->
+        <div id="pnlCatalogo"></div>
+    </div>
+
+    <!-- Dados das receitas e script -->
+    <script>
+        // Vetor com as receitas em formato JSON
+        const receitas = [
+            {
+                titulo: "Bolo de Chocolate",
+                imagem: "imagens/bolo-chocolate.png",
+                preparo: "Misture os ingredientes, asse por 40 minutos a 180°C.",
+                ingredientes: ["2 xícaras de farinha", "1 xícara de açúcar", "1 xícara de chocolate em pó", "3 ovos", "1 xícara de leite", "1 colher de fermento"]
+            },
+            {
+                titulo: "Lasanha",
+                imagem: "imagens/lasanha.png",
+                preparo: "Monte camadas e asse por 35 minutos a 200°C.",
+                ingredientes: ["500g de carne moída", "200g de queijo", "500g de massa para lasanha", "1 molho de tomate", "1 colher de manteiga"]
+            },
+            {
+                titulo: "Salada Grega",
+                imagem: "imagens/salada-grega.png",
+                preparo: "Misture os ingredientes e tempere a gosto.",
+                ingredientes: ["2 tomates", "1 pepino", "200g de queijo feta", "Azeitonas pretas", "Orégãos"]
+            }
+        ];
+
+        // Função para gerar a lista de ingredientes
+        function getListaIngredientes(receita) {
+            return receita.ingredientes
+                .map(ingrediente => `<li>${ingrediente}</li>`)
+                .reduce((acumulador, item) => acumulador + item, "<ul>") + "</ul>";
+        }
+
+        // Função para gerar o card de uma receita
+        function getCard(receita) {
+            return `
+                <div class="card" style="width: 250px;">
+                    <img src="${receita.imagem}" class="card-img-top" alt="${receita.titulo}">
+                    <div class="card-body">
+                        <h5 class="card-title">${receita.titulo}</h5>
+                        <div class="card-text">
+                            ${getListaIngredientes(receita)}
+                            <hr>
+                            <p>${receita.preparo}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Função para preencher o catálogo com as receitas
+        function preencheCatalogo() {
+            const pnlCatalogo = document.getElementById("pnlCatalogo");
+            pnlCatalogo.innerHTML = receitas
+                .map(receita => getCard(receita))
+                .reduce((html, card) => html + card, "");
+        }
+    </script>
+
+    <!-- Incluindo o JavaScript do Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
